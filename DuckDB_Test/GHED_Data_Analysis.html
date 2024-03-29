@@ -358,9 +358,15 @@ Data</h1>
 </div>
 
 
+<p>Importing DuckDb lirbaries</p>
 <pre class="r"><code>library(DBI)
 library(duckdb)
 con = dbConnect(duckdb(), dbdir = &quot;duckdb_r_db&quot;)</code></pre>
+<pre class="r"><code>dbExecute (con,&quot;
+           create table charts as 
+           select * from read_csv_auto(&#39;GHED_Burkina_Pakistan.csv&#39;);
+           &quot;)</code></pre>
+<pre><code>## [1] 44</code></pre>
 
 
 

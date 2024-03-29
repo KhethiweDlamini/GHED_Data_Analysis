@@ -4,8 +4,22 @@ author: "Khethiwe Dlamini"
 date: "2024-03-29"
 output: html_document
 ---
+Importing DuckDb libraries
 ```{r}
 library(DBI)
 library(duckdb)
+
+```
+
+```{r}
+# Connect to DuckDB and read first 10 rows
 con = dbConnect(duckdb(), dbdir = "duckdb_r_db")
+with(dbConnect(duckdb(), dbdir = "duckdb_r_db"), {
+  # Create table and read data
+  dbExecute (con,"
+    CREATE TABLE charts AS 
+    SELECT * FROM read_csv_auto('GHED_Burkina_Pakistan.csv');
+    ")
+  dbGetQuery(con, "select * charts limit 10")
+})
 ```
