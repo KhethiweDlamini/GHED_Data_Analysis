@@ -1,0 +1,11 @@
+---
+title: "Using DuckDB for Big Data Analysis - GHED Data"
+author: "Khethiwe Dlamini"
+date: "2024-03-29"
+output: html_document
+---
+```{r}
+library(DBI)
+library(duckdb)
+con = dbConnect(duckdb(), dbdir = "duckdb_r_db")
+```
