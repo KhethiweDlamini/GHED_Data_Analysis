@@ -4,8 +4,28 @@ author: "Khethiwe Dlamini"
 date: "2024-03-29"
 output: html_document
 ---
+Importing DuckDb libraries
 ```{r}
 library(DBI)
 library(duckdb)
-con = dbConnect(duckdb(), dbdir = "duckdb_r_db")
+# Generate a temporary file name
+temp_db_file <- tempfile(pattern = "duckdb_temp_XXXXXX.db")
+```
+
+```{r}
+# Connect to a temporary DuckDB database
+con <- dbConnect(duckdb(), dbdir = temp_db_file)
+# Create the table (assuming read_csv_auto is a function to read your CSV)
+dbExecute(con, "
+  CREATE TABLE charts AS
+  SELECT * FROM read_csv_auto('GHED_Burkina_Pakistan.csv');
+")
+# Read data from the table
+data <- dbGetQuery(con, "SELECT * FROM charts LIMIT 10")
+# Close the connection and the temporary database is automatically deleted
+dbDisconnect(con)
+```
+
+```{r}
+data
 ```
